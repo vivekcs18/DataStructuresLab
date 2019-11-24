@@ -74,69 +74,6 @@ void insert(int item)
 			parent->rchild=tmp;
 }/*End of insert()*/
 
-
-void case_a(struct node *par,struct node *loc )
-{
-	if(par==NULL) /*item to be deleted is root node*/
-		root=NULL;
-	else
-		if(loc==par->lchild)
-			par->lchild=NULL;
-		else
-			par->rchild=NULL;
-}/*End of case_a()*/
-
-void case_b(struct node *par,struct node *loc)
-{
-	struct node *child;
-
-	/*Initialize child*/
-	if(loc->lchild!=NULL) /*item to be deleted has lchild */
-		child=loc->lchild;
-	else                /*item to be deleted has rchild */
-		child=loc->rchild;
-
-	if(par==NULL )   /*Item to be deleted is root node*/
-		root=child;
-	else
-		if( loc==par->lchild)   /*item is lchild of its parent*/
-			par->lchild=child;
-		else                  /*item is rchild of its parent*/
-			par->rchild=child;
-}/*End of case_b()*/
-
-void case_c(struct node *par,struct node *loc)
-{
-	struct node *ptr,*ptrsave,*suc,*parsuc;
-
-	/*Find inorder successor and its parent*/
-	ptrsave=loc;
-	ptr=loc->rchild;
-	while(ptr->lchild!=NULL)
-	{
-		ptrsave=ptr;
-		ptr=ptr->lchild;
-	}
-	suc=ptr;
-	parsuc=ptrsave;
-
-	if(suc->lchild==NULL && suc->rchild==NULL)
-		case_a(parsuc,suc);
-	else
-		case_b(parsuc,suc);
-
-	if(par==NULL) /*if item to be deleted is root node */
-		root=suc;
-	else
-		if(loc==par->lchild)
-			par->lchild=suc;
-		else
-			par->rchild=suc;
-
-	suc->lchild=loc->lchild;
-	suc->rchild=loc->rchild;
-}
-
 int preorder(struct node *ptr)
 {
 	if(root==NULL)
